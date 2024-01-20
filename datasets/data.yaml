@@ -1,0 +1,6 @@
+names:
+  - luggage
+  - person
+nc: 2
+train: D:\Project\Python\yolov5\datasets\train
+val: D:\Project\Python\yolov5\datasets\valid
