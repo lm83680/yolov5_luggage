@@ -181,8 +181,7 @@ def run(
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string             #s为每个类别的预测框的数量和类别
 
                 # Write results，写入结果
-                for *xyxy, conf, cls in reversed(
-                        det):  # 遍历每个预测框,xyxy为预测框的坐标，conf为置信度，cls为类别,reversed()函数用于将列表反转，*是一个扩展语法，*xyxy表示将xyxy中的元素分别赋值给x1,y1,x2,y2
+                for *xyxy, conf, cls in reversed(det):  # 遍历每个预测框,xyxy为预测框的坐标，conf为置信度，cls为类别,reversed()函数用于将列表反转，*是一个扩展语法，*xyxy表示将xyxy中的元素分别赋值给x1,y1,x2,y2
                     if save_txt:  # Write to file,如果save_txt为True，则将预测框的坐标和类别写入txt文件中
                         xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(
                             -1).tolist()  # normalized xywh,将预测框的坐标从原始坐标转换为归一化坐标
@@ -193,8 +192,7 @@ def run(
 
                     if save_img or save_crop or view_img:  # Add bbox to image,如果save_img为True，则将预测框和标签绘制在图片上
                         c = int(cls)  # integer class,获取类别
-                        label = None if hide_labels else (names[
-                                                              c] if hide_conf else f'{names[c]} {conf:.2f}')  # 如果hide_labels为True，则不显示标签，否则显示标签，如果hide_conf为True，则不显示置信度，否则显示置信度
+                        label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')  # 如果hide_labels为True，则不显示标签，否则显示标签，如果hide_conf为True，则不显示置信度，否则显示置信度
                         annotator.box_label(xyxy, label, color=colors(c, True))  # 绘制预测框和标签
                     if save_crop:  # 如果save_crop为True，则保存裁剪的图片
                         save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg',
@@ -318,3 +316,9 @@ def main(opt):  # 主函数
 if __name__ == '__main__':
     opt = parse_opt()
     main(opt)
+    while 1:
+        user_input = input("Press Enter to stop the program: ")
+        if user_input == "":
+            break
+
+
