@@ -3,10 +3,10 @@
 """
 import os
 
-def rename_files(directory):
 
+def rename_files(directory):
     # 从编号0001开始
-    start = 40
+    start = 1
     # 获取目录下所有文件名
     files = os.listdir(directory)
 
@@ -23,6 +23,7 @@ def rename_files(directory):
         old_path = os.path.join(directory, filename)
         new_path = os.path.join(directory, new_filename)
         os.rename(old_path, new_path)
+
 
 if __name__ == "__main__":
     # 指定目录路径
