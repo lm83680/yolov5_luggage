@@ -38,3 +38,12 @@ Results saved to runs\train\exp
 ```
 
 > 本次训练中，yolo自动终止了训练，因为在过去的100轮中，并没有任何改善，故保存了最佳的第185次
+
+
+- datasets
+  - train
+    - images
+    - labels
+  - valid
+    - images
+    - labels

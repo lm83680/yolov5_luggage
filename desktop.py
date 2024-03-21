@@ -74,11 +74,9 @@ label_tip = tk.Label(root, text="程序状态：请选择文件夹")
 label_tip.grid(row=3, column=0, columnspan=2)
 start_but = tk.Button(root, text="开始识别", state=tk.DISABLED, command=start, bg="lightgray", width=10)
 start_but.grid(row=1, column=2)
-start_but = tk.Button(root, text="使用摄像头开始", command=start_stream, bg="lightgreen", width=18)
-start_but.grid(row=1, column=1)
 
 # 添加标签
-result_label = tk.Label(root, text="",height=4)
+result_label = tk.Label(root, text="", height=4)
 result_label.grid(row=2, column=0)
 # 添加标签
 result_label = tk.Label(root, text="识别结果路径：")

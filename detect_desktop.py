@@ -218,21 +218,28 @@ def run(
                         if h > max_h:
                             max_h = h
 
-                pic_real_h = (person_height+10)/max_h  # 图像现实中实际高度
-                real_w, real_h = im0.shape[1], im0.shape[0]
-                size_scale = real_w / real_h  # 宽高比
-                pic_real_w = pic_real_h * size_scale
-                # xw 和宽度有关系， yh和高度有关系
-                for i, item in enumerate(the_pic_data):
-                    p_xywh = item['xywh']
-                    r_xywh = [p_xywh[0]*pic_real_w,p_xywh[1]*pic_real_h, p_xywh[2]*pic_real_w, (p_xywh[3]*pic_real_h)-10]
-                    item['r_xywh'] = r_xywh  # 数据整理完毕
+                if max_h == 0 :
+                    for i, item in enumerate(the_pic_data):
+                        if item['label_name'] == 'luggage':
+                            label = f"{item['label_name']}" + f", No one was found"
+                            annotator.box_label(item['xyxy'], label, color=[255, 0, 0])
 
-                    # 55厘米、40厘米
-                    if item['label_name'] == 'luggage':
-                        isBig = r_xywh[2] > 54 or r_xywh[3] > 39
-                        label = f"{item['label_name']}" + f" {r_xywh[2]:.2f}cm*{r_xywh[3]:.2f}cm " + f"{'BigLuggage' if isBig else ''} "
-                        annotator.box_label(item['xyxy'], label, color=[0,0,255] if isBig else [0,255,0])
+                else:
+                    pic_real_h = (person_height+10)/max_h  # 图像现实中实际高度
+                    real_w, real_h = im0.shape[1], im0.shape[0]
+                    size_scale = real_w / real_h  # 宽高比
+                    pic_real_w = pic_real_h * size_scale
+                    # xw 和宽度有关系， yh和高度有关系
+                    for i, item in enumerate(the_pic_data):
+                        p_xywh = item['xywh']
+                        r_xywh = [p_xywh[0]*pic_real_w,p_xywh[1]*pic_real_h, p_xywh[2]*pic_real_w, (p_xywh[3]*pic_real_h)-10]
+                        item['r_xywh'] = r_xywh  # 数据整理完毕
+
+                        # 55厘米、40厘米
+                        if item['label_name'] == 'luggage':
+                            isBig = r_xywh[2] >= 55 or r_xywh[3] >= 40
+                            label = f"{item['label_name']}" + f" w{r_xywh[2]:.2f}cm*h{r_xywh[3]:.2f}cm " + f"{'BigLuggage' if isBig else ''} "
+                            annotator.box_label(item['xyxy'], label, color=[0,0,255] if isBig else [0,255,0])
 
             # Stream results
             im0 = annotator.result()
