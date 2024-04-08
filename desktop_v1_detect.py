@@ -1,34 +1,5 @@
-# YOLOv5 🚀 by Ultralytics, AGPL-3.0 license
-"""
-Run YOLOv5 detection inference on images, videos, directories, globs, YouTube, webcam, streams, etc.
+# YOLOv5 🚀 by Ultralytics, AGPL-3.0 licens
 
-Usage - sources:
-    $ python detect.py --weights yolov5s.pt --source 0                               # webcam
-                                                     img.jpg                         # image
-                                                     vid.mp4                         # video
-                                                     screen                          # screenshot
-                                                     path/                           # directory
-                                                     list.txt                        # list of images
-                                                     list.streams                    # list of streams
-                                                     'path/*.jpg'                    # glob
-                                                     'https://youtu.be/LNwODJXcvt4'  # YouTube
-                                                     'rtsp://example.com/media.mp4'  # RTSP, RTMP, HTTP stream
-
-Usage - formats:
-    $ python detect.py --weights yolov5s.pt                 # PyTorch
-                                 yolov5s.torchscript        # TorchScript
-                                 yolov5s.onnx               # ONNX Runtime or OpenCV DNN with --dnn
-                                 yolov5s_openvino_model     # OpenVINO
-                                 yolov5s.engine             # TensorRT
-                                 yolov5s.mlmodel            # CoreML (macOS-only)
-                                 yolov5s_saved_model        # TensorFlow SavedModel
-                                 yolov5s.pb                 # TensorFlow GraphDef
-                                 yolov5s.tflite             # TensorFlow Lite
-                                 yolov5s_edgetpu.tflite     # TensorFlow Edge TPU
-                                 yolov5s_paddle_model       # PaddlePaddle
-"""
-
-import argparse
 import csv
 import os
 import platform
@@ -53,12 +24,10 @@ from utils.general import (
     check_file,
     check_img_size,
     check_imshow,
-    check_requirements,
     colorstr,
     cv2,
     increment_path,
     non_max_suppression,
-    print_args,
     scale_boxes,
     strip_optimizer,
     xyxy2xywh,
@@ -78,8 +47,6 @@ def run(
         device="",  # cuda device, i.e. 0 or 0,1,2,3 or cpu
         view_img=False,  # show results
         save_txt=False,  # save results to *.txt
-        save_csv=False,  # save results in CSV format
-        save_conf=False,  # save confidences in --save-txt labels
         save_crop=False,  # save cropped prediction boxes
         nosave=False,  # do not save images/videos
         classes=None,  # filter by class: --class 0, or --class 0 2 3
@@ -90,13 +57,12 @@ def run(
         project=ROOT / "runs/detect",  # save results to project/name
         name="exp",  # save results to project/name
         exist_ok=False,  # existing project/name ok, do not increment
-        line_thickness=3,  # bounding box thickness (pixels)
-        hide_labels=False,  # hide labels
-        hide_conf=False,  # hide confidences
+        line_thickness=5,  # bounding box thickness (pixels)
         half=False,  # use FP16 half-precision inference
         dnn=False,  # use OpenCV DNN for ONNX inference
         vid_stride=1,  # video frame-rate stride
         person_height=170,  # 图像中参考的人物高度 cm
+        real_height_dec=10,  # 误差高度
 ):
     source = str(source)
     save_img = not nosave and not source.endswith(".txt")  # save inference images
@@ -232,7 +198,7 @@ def run(
                     # xw 和宽度有关系， yh和高度有关系
                     for i, item in enumerate(the_pic_data):
                         p_xywh = item['xywh']
-                        r_xywh = [p_xywh[0]*pic_real_w,p_xywh[1]*pic_real_h, p_xywh[2]*pic_real_w, (p_xywh[3]*pic_real_h)-10]
+                        r_xywh = [p_xywh[0]*pic_real_w,p_xywh[1]*pic_real_h, p_xywh[2]*pic_real_w, (p_xywh[3]*pic_real_h)-real_height_dec]
                         item['r_xywh'] = r_xywh  # 数据整理完毕
 
                         # 55厘米、40厘米

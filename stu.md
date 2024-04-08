@@ -21,3 +21,8 @@ python train.py --batch-size 12 --epochs 400 --data det_sample/leaf/data.yaml --
 
 # 测试
 !python .\detect.py --source C:\Users\gf66\Pictures\luoye --weights runs/train/exp15/weights/best.pt
+
+
+
+# 阶段一
+完成了在本地计算机的识别

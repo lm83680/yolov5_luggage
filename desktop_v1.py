@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 import subprocess
 import os
-import detect_desktop as detect
+import desktop_v1_detect as detect
 import detect as detect_c
 
 
@@ -34,13 +34,6 @@ def start():
             label_tip.config(text="程序状态：识别失败")
     except Exception as e:
         label_tip.config(text=f"程序状态：{e}")
-
-
-def start_stream():
-    if label_tip.cget("text") != '程序状态：正在识别中...':
-        detect_c.run(source='0')
-        label_tip.config(text="程序状态：正在识别中...")
-        root.update()
 
 
 def open_result_path():
